@@ -3,16 +3,24 @@ package com.example.flickster.models;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 //this class was created to parse the incoming requests
+@Parcel
 public class Movie {
     String posterPath;
     String backdropPath;
     String title;
     String overview;
+    double ratings;
+    int movieId;
+
+
+    //the empty constructor is needed by the parcel libraby
+    public Movie(){}
 
     public Movie(JSONObject jsonObject) throws JSONException {
         //when passing the object that was returned from the http request
@@ -20,10 +28,12 @@ public class Movie {
         backdropPath = jsonObject.getString("backdrop_path");
         title = jsonObject.getString("title");
         overview = jsonObject.getString("overview");
+        ratings = jsonObject.getDouble("vote_average");
+        movieId = jsonObject.getInt("id");
     }
 
 
-    //return type is a list of type class Moive
+    //return type is a list of type class Movie, parsing each object
     public static List<Movie> fromArrayList(JSONArray movieJsonArray) throws JSONException {
         List<Movie> movies = new ArrayList<>();
         for(int i = 0; i < movieJsonArray.length(); i++){
@@ -48,4 +58,9 @@ public class Movie {
     public String getOverview() {
         return overview;
     }
+
+    public double getRatings(){return ratings;}
+
+    public int getMovieId(){return movieId;}
+
 }

@@ -24,7 +24,8 @@ import static com.loopj.android.http.AsyncHttpClient.log;
 public class MainActivity extends AppCompatActivity {
 
     private static final String MovieUrl = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
-    //Arraylist of types Movie to had the move items and place it on the recycler View
+
+    //ArrayList of types Movie to had the move items and place it on the recycler View
     List<Movie> movies;
 
     @Override
@@ -33,15 +34,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //referencing the UI list
         RecyclerView rvMovies = findViewById(R.id.rv_movies);
-        //instance of the movie adpater, this references this class
         movies = new ArrayList<>();
+        //instance of the movie adpater, this references this class
         final MoviesAdapter adapter = new MoviesAdapter(this, movies);
         //layout mangers so the view knows how to lay it out in different ways
-        //recycler view needs a layoutmanger and a adapter to be instantiated
+        //recycler view needs a layout manger and a adapter to be instantiated
         rvMovies.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         rvMovies.setAdapter(adapter);
 
+        //used to make the http request call
         AsyncHttpClient client = new AsyncHttpClient();
+
+        //making a get resqust with a call back function, overriding two classes
         client.get(MovieUrl, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
